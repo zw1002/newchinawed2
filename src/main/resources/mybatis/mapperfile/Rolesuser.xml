@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="RolesUserMapper">
+  <resultMap type="RolesUser" id="RolesUserResultMap">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="role_creator" jdbcType="VARCHAR" property="roleCreator" />
+    <result column="role_ctime" jdbcType="DATE" property="roleCtime" />
+  </resultMap>
+  <!-- 添加信息 -->
+  <insert id="addRolesUser" parameterType="pd">
+    insert into tb_rolesuser (uid,role_id, user_id, role_creator,    role_ctime)
+    values (#{uid,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{roleCreator,jdbcType=VARCHAR},
+    #{roleCtime,jdbcType=DATE})
+  </insert>
+
+  <!--删除用户时，更改此表此用户状态值,1可用，0不可用-->
+  <update id="deleteRolesUserByFid" parameterType="java.lang.String">
+    update tb_rolesuser	set isdel='0'	where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+  <!--通过角色ID获取此角色关联的用户-->
+  <select id="getUserByRoleId" resultMap="RolesUserResultMap" parameterType="java.lang.String">
+    select *	from tb_rolesuser where role_id=#{roleId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="delRolesUser" parameterType="pd">
+  delete from tb_rolesuser
+  where user_id = #{userId,jdbcType=VARCHAR} and role_id = #{roleId,jdbcType=VARCHAR}
+</delete>
+</mapper>

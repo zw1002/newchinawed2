@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WorksMapper">
+  <resultMap id="BaseResultMap" type="Works">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="workstype" jdbcType="VARCHAR" property="workstype" />
+    <result column="worksname" jdbcType="VARCHAR" property="worksname" />
+    <result column="uptime" jdbcType="TIMESTAMP" property="uptime" />
+    <result column="samllurl" jdbcType="VARCHAR" property="samllurl" />
+    <result column="worksurl" jdbcType="VARCHAR" property="worksurl" />
+    <result column="watermakeurl" jdbcType="VARCHAR" property="watermakeurl" />
+    <result column="dpinum" jdbcType="VARCHAR" property="dpinum" />
+    <result column="imgsize" jdbcType="VARCHAR" property="imgsize" />
+    <result column="imgformart" jdbcType="VARCHAR" property="imgformart" />
+    <result column="colrmodel" jdbcType="VARCHAR" property="colrmodel" />
+    <result column="downcount" jdbcType="INTEGER" property="downcount" />
+    <result column="favcount" jdbcType="INTEGER" property="favcount" />
+    <result column="displayflag" jdbcType="VARCHAR" property="displayflag" />
+    <result column="delflag" jdbcType="VARCHAR" property="delflag" />
+    <result column="checkuser" jdbcType="VARCHAR" property="checkuser" />
+    <result column="chacktime" jdbcType="TIMESTAMP" property="chacktime" />
+    <result column="merchid" jdbcType="VARCHAR" property="merchid" />
+    <result column="ticknums" jdbcType="INTEGER" property="ticknums" />
+    <result column="oknums" jdbcType="INTEGER" property="oknums" />
+    <result column="workremark" jdbcType="VARCHAR" property="workremark" />
+    <result column="worklabel" jdbcType="VARCHAR" property="worklabel" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="worktypename" jdbcType="VARCHAR" property="worktypename" />
+    <result column="merchname" jdbcType="VARCHAR" property="merchname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uid, workstype, worksname, uptime, samllurl, worksurl, watermakeurl, dpinum, imgsize,
+    imgformart, colrmodel, downcount, favcount, displayflag, delflag, checkuser, chacktime, 
+    merchid, ticknums, oknums, workremark, worklabel, price
+  </sql>
+  <select id="getWorksForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_works
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <select id="getAllWorks" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,(select keyname from tb_dict where keyvalue=tb_works.workstype) as worktypename
+    ,(select merchname from tb_merch where uid=tb_works.merchid) as merchname
+    from tb_works  where 1=1
+    <if test="displayflag != null and displayflag != ''">
+       AND  displayflag = #{displayflag,jdbcType=VARCHAR}
+    </if>
+    <if test="limit!= null and limit > 0 and limit != ''">
+      LIMIT #{offset},#{limit}
+    </if>
+  </select>
+  <delete id="deleteWorksByFid" parameterType="java.lang.String">
+
+    delete from tb_works
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addWorks" parameterType="com.hnqj.model.Works">
+
+    insert into tb_works (uid, workstype, worksname, 
+      uptime, samllurl, worksurl, 
+      watermakeurl, dpinum, imgsize, 
+      imgformart, colrmodel, downcount, 
+      favcount, displayflag, delflag, 
+      checkuser, chacktime, merchid,
+      ticknums, oknums, workremark, 
+      worklabel, price)
+    values (#{uid,jdbcType=VARCHAR}, #{workstype,jdbcType=VARCHAR}, #{worksname,jdbcType=VARCHAR}, 
+      #{uptime,jdbcType=TIMESTAMP}, #{samllurl,jdbcType=VARCHAR}, #{worksurl,jdbcType=VARCHAR}, 
+      #{watermakeurl,jdbcType=VARCHAR}, #{dpinum,jdbcType=VARCHAR}, #{imgsize,jdbcType=VARCHAR},
+      #{imgformart,jdbcType=VARCHAR}, #{colrmodel,jdbcType=VARCHAR}, #{downcount,jdbcType=INTEGER}, 
+      #{favcount,jdbcType=INTEGER}, #{displayflag,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, 
+      #{checkuser,jdbcType=VARCHAR}, #{chacktime,jdbcType=TIMESTAMP}, #{merchid,jdbcType=VARCHAR},
+      #{ticknums,jdbcType=INTEGER}, #{oknums,jdbcType=INTEGER}, #{workremark,jdbcType=VARCHAR}, 
+      #{worklabel,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnqj.model.Works">
+
+    insert into tb_works
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="workstype != null">
+        workstype,
+      </if>
+      <if test="worksname != null">
+        worksname,
+      </if>
+      <if test="uptime != null">
+        uptime,
+      </if>
+      <if test="samllurl != null">
+        samllurl,
+      </if>
+      <if test="worksurl != null">
+        worksurl,
+      </if>
+      <if test="watermakeurl != null">
+        watermakeurl,
+      </if>
+      <if test="dpinum != null">
+        dpinum,
+      </if>
+      <if test="imgsize != null">
+        imgsize,
+      </if>
+      <if test="imgformart != null">
+        imgformart,
+      </if>
+      <if test="colrmodel != null">
+        colrmodel,
+      </if>
+      <if test="downcount != null">
+        downcount,
+      </if>
+      <if test="favcount != null">
+        favcount,
+      </if>
+      <if test="displayflag != null">
+        displayflag,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="checkuser != null">
+        checkuser,
+      </if>
+      <if test="chacktime != null">
+        chacktime,
+      </if>
+      <if test="merchid != null">
+        merchid,
+      </if>
+      <if test="ticknums != null">
+        ticknums,
+      </if>
+      <if test="oknums != null">
+        oknums,
+      </if>
+      <if test="workremark != null">
+        workremark,
+      </if>
+      <if test="worklabel != null">
+        worklabel,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="workstype != null">
+        #{workstype,jdbcType=VARCHAR},
+      </if>
+      <if test="worksname != null">
+        #{worksname,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null">
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="samllurl != null">
+        #{samllurl,jdbcType=VARCHAR},
+      </if>
+      <if test="worksurl != null">
+        #{worksurl,jdbcType=VARCHAR},
+      </if>
+      <if test="watermakeurl != null">
+        #{watermakeurl,jdbcType=VARCHAR},
+      </if>
+      <if test="dpinum != null">
+        #{dpinum,jdbcType=VARCHAR},
+      </if>
+      <if test="imgsize != null">
+        #{imgsize,jdbcType=VARCHAR},
+      </if>
+      <if test="imgformart != null">
+        #{imgformart,jdbcType=VARCHAR},
+      </if>
+      <if test="colrmodel != null">
+        #{colrmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="downcount != null">
+        #{downcount,jdbcType=INTEGER},
+      </if>
+      <if test="favcount != null">
+        #{favcount,jdbcType=INTEGER},
+      </if>
+      <if test="displayflag != null">
+        #{displayflag,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="checkuser != null">
+        #{checkuser,jdbcType=VARCHAR},
+      </if>
+      <if test="chacktime != null">
+        #{chacktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchid != null">
+        #{merchid,jdbcType=VARCHAR},
+      </if>
+      <if test="ticknums != null">
+        #{ticknums,jdbcType=INTEGER},
+      </if>
+      <if test="oknums != null">
+        #{oknums,jdbcType=INTEGER},
+      </if>
+      <if test="workremark != null">
+        #{workremark,jdbcType=VARCHAR},
+      </if>
+      <if test="worklabel != null">
+        #{worklabel,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateWorks" parameterType="pd">
+
+    update tb_works
+    <set>
+      <if test="workstype != null">
+        workstype = #{workstype,jdbcType=VARCHAR},
+      </if>
+      <if test="worksname != null">
+        worksname = #{worksname,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null">
+        uptime = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="samllurl != null">
+        samllurl = #{samllurl,jdbcType=VARCHAR},
+      </if>
+      <if test="worksurl != null">
+        worksurl = #{worksurl,jdbcType=VARCHAR},
+      </if>
+      <if test="watermakeurl != null">
+        watermakeurl = #{watermakeurl,jdbcType=VARCHAR},
+      </if>
+      <if test="dpinum != null">
+        dpinum = #{dpinum,jdbcType=VARCHAR},
+      </if>
+      <if test="imgsize != null">
+        imgsize = #{imgsize,jdbcType=VARCHAR},
+      </if>
+      <if test="imgformart != null">
+        imgformart = #{imgformart,jdbcType=VARCHAR},
+      </if>
+      <if test="colrmodel != null">
+        colrmodel = #{colrmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="downcount != null">
+        downcount = #{downcount,jdbcType=INTEGER},
+      </if>
+      <if test="favcount != null">
+        favcount = #{favcount,jdbcType=INTEGER},
+      </if>
+      <if test="displayflag != null">
+        displayflag = #{displayflag,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="checkuser != null">
+        checkuser = #{checkuser,jdbcType=VARCHAR},
+      </if>
+      <if test="chacktime != null">
+        chacktime = #{chacktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchid != null">
+        merchid = #{merchid,jdbcType=VARCHAR},
+      </if>
+      <if test="ticknums != null">
+        ticknums = #{ticknums,jdbcType=INTEGER},
+      </if>
+      <if test="oknums != null">
+        oknums = #{oknums,jdbcType=INTEGER},
+      </if>
+      <if test="workremark != null">
+        workremark = #{workremark,jdbcType=VARCHAR},
+      </if>
+      <if test="worklabel != null">
+        worklabel = #{worklabel,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Works">
+
+    update tb_works
+    set workstype = #{workstype,jdbcType=VARCHAR},
+      worksname = #{worksname,jdbcType=VARCHAR},
+      uptime = #{uptime,jdbcType=TIMESTAMP},
+      samllurl = #{samllurl,jdbcType=VARCHAR},
+      worksurl = #{worksurl,jdbcType=VARCHAR},
+      watermakeurl = #{watermakeurl,jdbcType=VARCHAR},
+      dpinum = #{dpinum,jdbcType=VARCHAR},
+      imgsize = #{imgsize,jdbcType=VARCHAR},
+      imgformart = #{imgformart,jdbcType=VARCHAR},
+      colrmodel = #{colrmodel,jdbcType=VARCHAR},
+      downcount = #{downcount,jdbcType=INTEGER},
+      favcount = #{favcount,jdbcType=INTEGER},
+      displayflag = #{displayflag,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=VARCHAR},
+      checkuser = #{checkuser,jdbcType=VARCHAR},
+      chacktime = #{chacktime,jdbcType=TIMESTAMP},
+      merchid = #{merchid,jdbcType=VARCHAR},
+      ticknums = #{ticknums,jdbcType=INTEGER},
+      oknums = #{oknums,jdbcType=INTEGER},
+      workremark = #{workremark,jdbcType=VARCHAR},
+      worklabel = #{worklabel,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!-- 更新作品状态 -->
+  <update id="updateWorksState" parameterType="pd">
+    update tb_works SET displayflag = #{displayflag,jdbcType=VARCHAR},chacktime=now(),checkuser=#{checkuser,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+</mapper>

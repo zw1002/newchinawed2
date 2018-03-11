@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GraphMapper">
+  <resultMap id="BaseResultMap" type="Graph">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="enclosureurl" jdbcType="VARCHAR" property="enclosureurl" />
+    <result column="favcount" jdbcType="INTEGER" property="favcount" />
+    <result column="displayflag" jdbcType="VARCHAR" property="displayflag" />
+    <result column="delflag" jdbcType="VARCHAR" property="delflag" />
+    <result column="checkuser" jdbcType="VARCHAR" property="checkuser" />
+    <result column="chacktime" jdbcType="TIMESTAMP" property="chacktime" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="ticknums" jdbcType="INTEGER" property="ticknums" />
+    <result column="graphtype" jdbcType="VARCHAR" property="graphtype" />
+    <result column="graphclassification" jdbcType="VARCHAR" property="graphclassification" />
+    <result column="graphtitle" jdbcType="VARCHAR" property="graphtitle" />
+    <result column="graphdetail" jdbcType="VARCHAR" property="graphdetail" />
+    <result column="solicitationtype" jdbcType="INTEGER" property="solicitationtype" />
+    <result column="moneyreward" jdbcType="DOUBLE" property="moneyreward" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="submissionnums" jdbcType="INTEGER" property="submissionnums" />
+    <result column="bidsubmission" jdbcType="VARCHAR" property="bidsubmission" />
+    <result column="graphendtime" jdbcType="TIMESTAMP" property="graphendtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uid, addtime, enclosureurl, favcount, displayflag, delflag, checkuser, chacktime,
+    userid, ticknums, graphtype, graphclassification, graphtitle, graphdetail, solicitationtype, 
+    moneyreward, endtime,state,submissionnums,bidsubmission,graphendtime
+  </sql>
+  <select id="getGraphForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_graph
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_graph
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addGraph" parameterType="pd">
+    insert into tb_graph (uid, addtime, enclosureurl,
+      favcount, displayflag, delflag, 
+      checkuser, chacktime, userid, 
+      ticknums, graphtype, graphclassification, 
+      graphtitle, graphdetail, solicitationtype, 
+      moneyreward, endtime,state,submissionnums,graphendtime)
+    values (#{uid,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{enclosureurl,jdbcType=VARCHAR}, 
+      #{favcount,jdbcType=INTEGER}, #{displayflag,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, 
+      #{checkuser,jdbcType=VARCHAR}, #{chacktime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
+      #{ticknums,jdbcType=INTEGER}, #{graphtype,jdbcType=VARCHAR}, #{graphclassification,jdbcType=VARCHAR}, 
+      #{graphtitle,jdbcType=VARCHAR}, #{graphdetail,jdbcType=VARCHAR}, #{solicitationtype,jdbcType=INTEGER}, 
+      #{moneyreward,jdbcType=DOUBLE}, #{endtime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{submissionnums,jdbcType=INTEGER}
+      , #{graphendtime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Graph">
+    update tb_graph
+    set addtime = #{addtime,jdbcType=TIMESTAMP},
+      enclosureurl = #{enclosureurl,jdbcType=VARCHAR},
+      favcount = #{favcount,jdbcType=INTEGER},
+      displayflag = #{displayflag,jdbcType=VARCHAR},
+      delflag = #{delflag,jdbcType=VARCHAR},
+      checkuser = #{checkuser,jdbcType=VARCHAR},
+      chacktime = #{chacktime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR},
+      ticknums = #{ticknums,jdbcType=INTEGER},
+      graphtype = #{graphtype,jdbcType=VARCHAR},
+      graphclassification = #{graphclassification,jdbcType=VARCHAR},
+      graphtitle = #{graphtitle,jdbcType=VARCHAR},
+      graphdetail = #{graphdetail,jdbcType=VARCHAR},
+      solicitationtype = #{solicitationtype,jdbcType=INTEGER},
+      moneyreward = #{moneyreward,jdbcType=DOUBLE},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      state =#{state,jdbcType=INTEGER},
+      submissionnums =#{submissionnums,jdbcType=INTEGER},
+      graphendtime =#{graphendtime,jdbcType=TIMESTAMP}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--分页获取未审核求图数据-->
+  <select id="getAllGraph" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_graph
+    where displayflag = #{flag}
+    LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectGraphList" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_graph
+    where displayflag = #{flag}
+  </select>
+  <!--修改审核状态-->
+  <update id="updateGraphState" parameterType="pd">
+    update tb_graph
+    set displayflag = #{displayflag},
+    checkuser = #{checkuser},
+    chacktime = #{chacktime}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+</mapper>

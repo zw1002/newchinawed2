@@ -1,0 +1,93 @@
+.button_yes{
+    height:24px;
+    width:69px;
+    background:url(btn/btn_bg.gif) left;
+    border:0; margin:2px 0px 0px 2px; color:#405e72; margin-right:5px; color:#333}
+.clear_main{margin:5px; clear:both;}
+.left2{ float:left; width:260px;margin-right:2px}
+.right2{ float:left; width:220px}
+#titbars{
+    float:left;
+    width:100%;
+    line-height:normal;
+    border-bottom:1px solid #C9C9C9;
+    font: bold 11px/1.5em Verdana;}
+#titbars ul{
+    margin:0;
+    padding:0px 10px 0 8px;
+    list-style:none;}
+#titbars li{
+    display:inline;
+    margin:0;
+    padding:0;}
+#titbars a{
+    float:left;
+    margin:0;
+    padding:0 0 0 7px;
+    text-decoration:none;}
+#titbars a span{
+    float:left;
+    display:block;
+    padding:5px 15px 4px 6px;
+    color:#6B78A9;}
+#titbars a span {float:none;}
+/* End IE5-Mac hack */
+#titbars a:hover span {color:#000;}
+#titbars a:hover {background-position:0% -42px; }
+#titbars a:hover span {
+    background-position:100% -42px;}
+.main_user{
+    border:1px solid #c2c2c2;
+    margin-top:26px;
+    _margin-top:0;}
+.selected_user{
+    border:1px solid #c2c2c2;
+    margin:2px 5px 2px 5px;
+    width:480px;
+    height:40px;
+    overflow:auto;
+    float:left;}
+.user{
+    float:left;
+    margin:2px 2px 0px 2px;
+    cursor:move;
+    white-space: nowrap;
+}
+.userselect{
+    width:auto;height:auto;
+    float:left;
+    background-color:#FECA40;
+    margin-right:2px;
+    cursor:move;}
+.deleteuser{
+    margin-left:4px;
+    margin-right:2px;
+    display:none;
+    cursor:pointer;}
+.tagselect{
+    width:auto;height:auto;
+    float:left;
+    background-color:#FECA40;
+    margin-right:2px;
+    cursor:pointer;}
+.searchbar{ background-color:#e0e7ec; height:24px; line-height:24px; display:block; padding:2px 8px}
+.btn_bar{background-color:#e0e7ec; height:30px; padding-right:30px; font:bold 12px Arial;}
+
+.list_div2{height:210px; overflow-y:auto; padding:0px 0px;}
+.list_div2 ul{ margin:0; padding:0}
+.gray{ color:#999;}
+.padding1{ padding-left:15px}
+.bumen li{padding-left:15px}
+.renyuan li{padding-left:15px}
+.empty{background:url(cross.png) no-repeat 8px 50% #e0e7ec; padding-left:25px}
+.garbage{background:url(garbage.png) no-repeat 8px 50% #e0e7ec; padding-left:25px}
+.users{ margin:0px 1px;height:220px; color:#3a6898}
+.users ul,li{padding:0; margin:0}
+.users ul li{ line-height:23px; display:block}
+.users ul li:hover{ }
+.editbox{border:1px solid #C5C5C5;height:150px;line-height:23px;width:160px;position:absolute;top:20px;display:none;z-index:4;background-color:#fff;background: url(../../common/tit2_bg.jpg) repeat-x;}
+.editbox div.title{float:left;width:100%;height:20px;color:#9C9FA2}
+.editbox_content{background-color:white;overflow:auto;cursor:text; bottom:10px;top:0px; position:relative;height:130px;}
+#editbox_content .ui-selecting { background: #FECA40; }
+#editbox_content .ui-selected { background: #F39814; color: white; }
+#editbox_content div { margin: 3px; padding: 1px; float: left; font-size: 12px; cursor:move; text-align: center;  background-color: #EeE4E4;}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DictMapper">
+  <resultMap id="BaseResultMap" type="Dict">
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="groupname" jdbcType="VARCHAR" property="groupname" />
+    <result column="keyname" jdbcType="VARCHAR" property="keyname" />
+    <result column="keyvalue" jdbcType="VARCHAR" property="keyvalue" />
+    <result column="parentid" jdbcType="VARCHAR" property="parentid" />
+    <result column="remarket" jdbcType="VARCHAR" property="remarket" />
+  </resultMap>
+  <!--新增-->
+  <insert id="addDict" parameterType="pd">
+    insert into tb_dict (uid, groupname, keyname,
+      keyvalue, parentid, remarket
+      )
+    values (#{uid,jdbcType=VARCHAR}, #{groupname,jdbcType=VARCHAR}, #{keyname,jdbcType=VARCHAR}, 
+      #{keyvalue,jdbcType=INTEGER}, #{parentid,jdbcType=VARCHAR}, #{remarket,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="getDictForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    *
+    from tb_dict
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <!--分页查询所有父节点-->
+  <select id="getAllDict" resultMap="BaseResultMap">
+    select * from tb_dict where parentid = #{parentId} LIMIT #{offset},#{limit}
+  </select>
+  <!--根据树ID查询所有-->
+  <select id="selectDictList" resultMap="BaseResultMap">
+    select * from tb_dict where parentid = #{parentId}
+  </select>
+  <!--查询所有-->
+  <select id="selectDictLists" resultMap="BaseResultMap">
+    select * from tb_dict
+  </select>
+<!--修改-->
+  <update id="updateDict" parameterType="pd">
+    update tb_dict
+    set groupname = #{groupname,jdbcType=VARCHAR},
+    keyname = #{keyname,jdbcType=VARCHAR},
+    keyvalue = #{keyvalue,jdbcType=VARCHAR},
+    parentid = #{parentid,jdbcType=VARCHAR},
+    remarket = #{remarket,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!-- 父菜单列表 -->
+  <select id="getParentModule" resultMap="BaseResultMap">
+    select *
+    from tb_dict where parentid = '0'
+  </select>
+  <!--删除-->
+  <delete id="deleteDictByFid">
+  delete from tb_dict where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <!--删除子级-->
+  <delete id="delChildByFid">
+    delete from tb_dict where parentid = #{parentid,jdbcType=VARCHAR}
+  </delete>
+  <!--获取指定节点-->
+  <select id="getDictForKeys" resultMap="BaseResultMap">
+    select * from tb_dict where locate(keyvalue,CONCAT('%',CONCAT(#{keyvalue,jdbcType=VARCHAR},'%')))
+    <!--<if test="labels != null and labels != ''">-->
+      <!--<foreach collection="labels" index="index" item="label" open=" (" separator=" OR " close=")">-->
+        <!--(worklabel LIKE CONCAT('%', CONCAT(#{label}, '%')))-->
+      <!--</foreach>-->
+    <!--</if>-->
+  </select>
+</mapper>

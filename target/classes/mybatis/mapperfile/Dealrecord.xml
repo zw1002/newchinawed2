@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DealrecordMapper">
+  <resultMap id="BaseResultMap" type="Dealrecord">
+    <id column="dealuid" jdbcType="VARCHAR" property="dealuid" />
+    <result column="dealtype" jdbcType="VARCHAR" property="dealtype" />
+    <result column="businesstype" jdbcType="VARCHAR" property="businesstype" />
+    <result column="dealtime" jdbcType="TIMESTAMP" property="dealtime" />
+    <result column="dealprice" jdbcType="DECIMAL" property="dealprice" />
+    <result column="dealstate" jdbcType="VARCHAR" property="dealstate" />
+    <result column="businesid" jdbcType="VARCHAR" property="businesid" />
+    <result column="businesstbname" jdbcType="VARCHAR" property="businesstbname" />
+    <result column="payuserid" jdbcType="VARCHAR" property="payuserid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dealuid, dealtype, businesstype, dealtime, dealprice, dealstate, businesid, businesstbname,payuserid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_dealrecord
+    where dealuid = #{dealuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_dealrecord
+    where dealuid = #{dealuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hnqj.model.Dealrecord">
+    insert into tb_dealrecord (dealuid, dealtype, businesstype,
+      dealtime, dealprice, dealstate, 
+      businesid, businesstbname,payuserid)
+    values (#{dealuid,jdbcType=VARCHAR}, #{dealtype,jdbcType=VARCHAR}, #{businesstype,jdbcType=VARCHAR}, 
+      #{dealtime,jdbcType=TIMESTAMP}, #{dealprice,jdbcType=DECIMAL}, #{dealstate,jdbcType=VARCHAR}, 
+      #{businesid,jdbcType=VARCHAR}, #{businesstbname,jdbcType=VARCHAR}, #{payuserid,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Dealrecord">
+    update tb_dealrecord
+    set dealtype = #{dealtype,jdbcType=VARCHAR},
+      businesstype = #{businesstype,jdbcType=VARCHAR},
+      dealtime = #{dealtime,jdbcType=TIMESTAMP},
+      dealprice = #{dealprice,jdbcType=DECIMAL},
+      dealstate = #{dealstate,jdbcType=VARCHAR},
+      businesid = #{businesid,jdbcType=VARCHAR},
+      businesstbname = #{businesstbname,jdbcType=VARCHAR},
+      payuserid =#{payuserid,jdbcType=VARCHAR}
+    where dealuid = #{dealuid,jdbcType=VARCHAR}
+  </update>
+  <!--分页查询所有订单数据-->
+  <select id="getAllDealrecord" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_dealrecord
+    where 1=1
+    <if test="flag != 3">
+      and dealstate= #{flag}
+    </if>
+    <if test="creatTime != ''">
+      and dealtime BETWEEN #{creatTime} AND #{creatTimes}
+    </if>
+    LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectDealrecordList" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_dealrecord
+    where 1=1
+    <if test="flag != '3'">
+      and dealstate= #{flag}
+    </if>
+    <if test="creatTime != ''">
+      and dealtime BETWEEN #{creatTime} AND #{creatTimes}
+    </if>
+  </select>
+</mapper>

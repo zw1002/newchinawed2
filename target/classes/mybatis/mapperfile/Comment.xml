@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommentMapper">
+  <resultMap id="BaseResultMap" type="com.hnqj.model.Comment">
+
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="worksid" jdbcType="VARCHAR" property="worksid" />
+    <result column="commentuserid" jdbcType="VARCHAR" property="commentuserid" />
+    <result column="commenttime" jdbcType="TIMESTAMP" property="commenttime" />
+    <result column="commentinfo" jdbcType="VARCHAR" property="commentinfo" />
+    <result column="parentid" jdbcType="VARCHAR" property="parentid" />
+    <result column="oknums" jdbcType="INTEGER" property="oknums" />
+    <result column="delflg" jdbcType="CHAR" property="delflg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    uid, worksid, commentuserid, commenttime, commentinfo, parentid, oknums, delflg
+  </sql>
+  <select id="getCommentForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from tb_comment
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <select id="getAllComment" parameterType="pd" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from tb_comment
+    <if test="delflg != null and delflg!=''">
+     where delflg=#{delflg,jdbcType=CHAR}
+    </if>
+    ORDER BY commenttime desc
+    <if test="limit != null and limit>0">
+      LIMIT #{offset},#{limit}
+    </if>
+  </select>
+  <delete id="deleteCommentByFid" parameterType="java.lang.String">
+
+    delete from tb_comment
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hnqj.model.Comment">
+
+    insert into tb_comment (uid, worksid, commentuserid, 
+      commenttime, commentinfo, parentid, 
+      oknums, delflg)
+    values (#{uid,jdbcType=VARCHAR}, #{worksid,jdbcType=VARCHAR}, #{commentuserid,jdbcType=VARCHAR}, 
+      #{commenttime,jdbcType=TIMESTAMP}, #{commentinfo,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, 
+      #{oknums,jdbcType=INTEGER}, #{delflg,jdbcType=CHAR})
+  </insert>
+  <insert id="addComment" parameterType="pd">
+
+    insert into tb_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="worksid != null">
+        worksid,
+      </if>
+      <if test="commentuserid != null">
+        commentuserid,
+      </if>
+      <if test="commenttime != null">
+        commenttime,
+      </if>
+      <if test="commentinfo != null">
+        commentinfo,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+      <if test="oknums != null">
+        oknums,
+      </if>
+      <if test="delflg != null">
+        delflg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="worksid != null">
+        #{worksid,jdbcType=VARCHAR},
+      </if>
+      <if test="commentuserid != null">
+        #{commentuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttime != null">
+        #{commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentinfo != null">
+        #{commentinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="oknums != null">
+        #{oknums,jdbcType=INTEGER},
+      </if>
+      <if test="delflg != null">
+        #{delflg,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateComment" parameterType="pd">
+
+    update tb_comment
+    <set>
+      <if test="worksid != null">
+        worksid = #{worksid,jdbcType=VARCHAR},
+      </if>
+      <if test="commentuserid != null">
+        commentuserid = #{commentuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttime != null">
+        commenttime = #{commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentinfo != null">
+        commentinfo = #{commentinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="oknums != null">
+        oknums = #{oknums,jdbcType=INTEGER},
+      </if>
+      <if test="delflg != null">
+        delflg = #{delflg,jdbcType=CHAR},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Comment">
+
+    update tb_comment
+    set worksid = #{worksid,jdbcType=VARCHAR},
+      commentuserid = #{commentuserid,jdbcType=VARCHAR},
+      commenttime = #{commenttime,jdbcType=TIMESTAMP},
+      commentinfo = #{commentinfo,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=VARCHAR},
+      oknums = #{oknums,jdbcType=INTEGER},
+      delflg = #{delflg,jdbcType=CHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+</mapper>

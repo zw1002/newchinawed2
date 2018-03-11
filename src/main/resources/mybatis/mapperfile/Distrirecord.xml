@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DistrirecordMapper">
+  <resultMap id="BaseResultMap" type="Distrirecord">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="dealid" jdbcType="VARCHAR" property="dealid" />
+    <result column="worksid" jdbcType="VARCHAR" property="worksid" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="proportion" jdbcType="REAL" property="proportion" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="referee" jdbcType="VARCHAR" property="referee" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uid, dealid, worksid, level, userid, proportion, price, state, addtime,referee
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_distrirecord
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_distrirecord
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pd">
+    insert into tb_distrirecord (uid, dealid, worksid,
+      level, userid, proportion, 
+      price, state, addtime,referee
+      )
+    values (#{uid,jdbcType=VARCHAR}, #{dealid,jdbcType=VARCHAR}, #{worksid,jdbcType=VARCHAR}, 
+      #{level,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{proportion,jdbcType=REAL}, 
+      #{price,jdbcType=DECIMAL}, #{state,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{referee,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="pd">
+    update tb_distrirecord
+    set dealid = #{dealid,jdbcType=VARCHAR},
+      worksid = #{worksid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      proportion = #{proportion,jdbcType=REAL},
+      price = #{price,jdbcType=DECIMAL},
+      state = #{state,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      referee =#{referee,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--分页获取分销记录数据-->
+  <select id="getAllDistrirecord" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_distrirecord
+    order by addtime desc
+    LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectDistrirecordList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_distrirecord
+  </select>
+</mapper>

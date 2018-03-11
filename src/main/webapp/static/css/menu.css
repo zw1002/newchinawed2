@@ -1,0 +1,68 @@
+.menu-system{
+    background: url('../img/menu/system.png');
+    background-position: center;
+}
+.menu-record{
+    background: url('../img/menu/record.png');
+    background-position: center;
+}
+.menu-flow{
+    background: url('../img/menu/flow.png');
+    background-position: center;
+}
+.menu-pic{
+     background: url('../img/menu/pic.png');
+     background-position: center;
+ }
+.menu-law{
+    background: url('../img/menu/pic.png');
+    background-position: center;
+}
+.menu-area{
+    background: url('../img/menu/area.png');
+    background-position: center;
+}
+.menu-search{
+    background: url('../img/menu/search.png');
+    background-position: center;
+}
+.menu-download{
+    background: url('../img/menu/download.png');
+    background-position: center;
+}
+.menu-archives{
+    background: url('../img/menu/archives.png');
+    background-position: center;
+}
+.menu-goods{
+    background: url('../img/menu/archives.png');
+    background-position: center;
+}
+.menu-supervise{
+    background: url('../img/menu/supervise.png');
+    background-position: center;
+}
+.menu-video{
+    background: url('../img/menu/video.png');
+    background-position: center;
+}
+.menu-patrol{
+    background: url('../img/menu/patrol.png');
+    background-position: center;
+}
+.menu-ledger{
+    background: url('../img/menu/ledger.png');
+    background-position: center;
+}
+.menu-postponed{
+    background: url('../img/menu/postponed.png');
+    background-position: center;
+}
+.menu-cd{
+    background: url('../img/menu/cd.png');
+    background-position: center;
+}
+.bgleft{
+    background: url('../img/menu/bgleft.png');
+    background-position: center;
+}

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ReleaseadvertMapper">
+  <resultMap id="BaseResultMap" type="com.hnqj.model.Releaseadvert">
+
+    <id column="aduid" jdbcType="VARCHAR" property="aduid" />
+    <result column="adpositionid" jdbcType="VARCHAR" property="adpositionid" />
+    <result column="adprice" jdbcType="DECIMAL" property="adprice" />
+    <result column="imgurl" jdbcType="VARCHAR" property="imgurl" />
+    <result column="adurl" jdbcType="VARCHAR" property="adurl" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="clickcount" jdbcType="VARCHAR" property="clickcount" />
+    <result column="clientuid" jdbcType="VARCHAR" property="clientuid" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="adtype" jdbcType="VARCHAR" property="adtype" />
+    <result column="adposname" jdbcType="VARCHAR" property="adposname" />
+    <result column="adclientname" jdbcType="VARCHAR" property="adclientname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    aduid, adpositionid, adprice, imgurl,adurl, createtime, clickcount, clientuid, creator,
+    starttime, endtime, adtype,(select adposition from tb_advert where adpositionid=uid ) as adposname,
+    (select clientname from tb_client where clientuid=clintuid) as adclientname
+  </sql>
+  <select id="getReleaseadvertForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from tb_releaseadvert
+    where aduid = #{aduid,jdbcType=VARCHAR}
+  </select>
+  <select id="getAllReleaseadvert" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from tb_releaseadvert
+
+    ORDER BY createtime desc
+    <if test="limit != null and limit>0">
+      LIMIT #{offset},#{limit}
+    </if>
+  </select>
+  <delete id="deleteReleaseadvertByFid" parameterType="java.lang.String">
+
+    delete from tb_releaseadvert
+    where aduid = #{aduid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hnqj.model.Releaseadvert">
+
+    insert into tb_releaseadvert (aduid, adpositionid, adprice,
+    imgurl,adurl, createtime, clickcount,
+      clientuid, creator, starttime, 
+      endtime, adtype)
+    values (#{aduid,jdbcType=VARCHAR}, #{adpositionid,jdbcType=VARCHAR}, #{adprice,jdbcType=DECIMAL},
+    #{imgurl,jdbcType=VARCHAR},#{adurl,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{clickcount,jdbcType=VARCHAR},
+      #{clientuid,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{adtype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="addReleaseadvert" parameterType="pd">
+
+    insert into tb_releaseadvert
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="aduid != null">
+        aduid,
+      </if>
+      <if test="adpositionid != null">
+        adpositionid,
+      </if>
+      <if test="adprice != null">
+        adprice,
+      </if>
+      <if test="imgurl != null">
+        imgurl,
+      </if>
+      <if test="adurl != null">
+        adurl,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="clickcount != null">
+        clickcount,
+      </if>
+      <if test="clientuid != null">
+        clientuid,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="adtype != null">
+        adtype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="aduid != null">
+        #{aduid,jdbcType=VARCHAR},
+      </if>
+      <if test="adpositionid != null">
+        #{adpositionid,jdbcType=VARCHAR},
+      </if>
+      <if test="adprice != null">
+        #{adprice,jdbcType=DECIMAL},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="adurl != null">
+        #{adurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clickcount != null">
+        #{clickcount,jdbcType=VARCHAR},
+      </if>
+      <if test="clientuid != null">
+        #{clientuid,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adtype != null">
+        #{adtype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateReleaseadvert" parameterType="pd">
+
+    update tb_releaseadvert
+    <set>
+      <if test="adpositionid != null">
+        adpositionid = #{adpositionid,jdbcType=VARCHAR},
+      </if>
+      <if test="adprice != null">
+        adprice = #{adprice,jdbcType=DECIMAL},
+      </if>
+      <if test="imgurl != null">
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="adurl != null">
+        adurl = #{adurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clickcount != null">
+        clickcount = #{clickcount,jdbcType=VARCHAR},
+      </if>
+      <if test="clientuid != null">
+        clientuid = #{clientuid,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adtype != null">
+        adtype = #{adtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where aduid = #{aduid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Releaseadvert">
+
+    update tb_releaseadvert
+    set adpositionid = #{adpositionid,jdbcType=VARCHAR},
+      adprice = #{adprice,jdbcType=DECIMAL},
+    imgurl = #{imgurl,jdbcType=VARCHAR},
+    adurl = #{adurl,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      clickcount = #{clickcount,jdbcType=VARCHAR},
+      clientuid = #{clientuid,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      adtype = #{adtype,jdbcType=VARCHAR}
+    where aduid = #{aduid,jdbcType=VARCHAR}
+  </update>
+</mapper>

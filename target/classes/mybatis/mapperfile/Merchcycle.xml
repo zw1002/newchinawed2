@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MerchcycleMapper">
+  <resultMap id="BaseResultMap" type="Merchcycle">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="merchid" jdbcType="VARCHAR" property="merchid" />
+    <result column="accountprice" jdbcType="VARCHAR" property="accountprice" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="auditID" jdbcType="VARCHAR" property="auditid" />
+    <result column="audittime" jdbcType="TIMESTAMP" property="audittime" />
+    <result column="prevture" jdbcType="DOUBLE" property="prevture" />
+    <result column="fcbl" jdbcType="DOUBLE" property="fcbl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uid, merchid, accountprice, addtime, auditID, audittime, prevture, fcbl
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_merchcycle
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_merchcycle
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hnqj.model.Merchcycle">
+    insert into tb_merchcycle (uid, merchid, accountprice,
+      addtime, auditID, audittime, 
+      prevture, fcbl)
+    values (#{uid,jdbcType=VARCHAR}, #{merchid,jdbcType=VARCHAR}, #{accountprice,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{auditid,jdbcType=VARCHAR}, #{audittime,jdbcType=TIMESTAMP}, 
+      #{prevture,jdbcType=DOUBLE}, #{fcbl,jdbcType=DOUBLE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Merchcycle">
+    update tb_merchcycle
+    set merchid = #{merchid,jdbcType=VARCHAR},
+      accountprice = #{accountprice,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      auditID = #{auditid,jdbcType=VARCHAR},
+      audittime = #{audittime,jdbcType=TIMESTAMP},
+      prevture = #{prevture,jdbcType=DOUBLE},
+      fcbl = #{fcbl,jdbcType=DOUBLE}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--分页查询数据-->
+  <select id="getAllMerchcycle" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_merchcycle
+    <if test="merchname != null and merchname != ''">
+      where merchid in(
+      select uid from tb_merch where merchname LIKE concat('%',#{merchname},'%')
+      )
+    </if>
+    LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectMerchcycleList" parameterType="pd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_merchcycle
+    <if test="merchname != null and merchname != ''">
+      where merchid in(
+      select uid from tb_merch where merchname LIKE concat('%',#{merchname},'%')
+      )
+    </if>
+  </select>
+</mapper>

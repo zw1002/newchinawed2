@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TrainMapper">
+  <resultMap id="BaseResultMap" type="com.hnqj.model.Train">
+    <id column="teruid" jdbcType="VARCHAR" property="teruid" />
+    <result column="trainname" jdbcType="VARCHAR" property="trainname" />
+    <result column="traintime" jdbcType="TIMESTAMP" property="traintime" />
+    <result column="trainaddress" jdbcType="VARCHAR" property="trainaddress" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="logoimg" jdbcType="VARCHAR" property="logoimg" />
+    <result column="topflag" jdbcType="VARCHAR" property="topflag" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="delflag" jdbcType="VARCHAR" property="delflag" />
+    <result column="legtime" jdbcType="TIMESTAMP" property="legtime" />
+    <result column="coursename" jdbcType="VARCHAR" property="coursename" />
+    <result column="trainclass" jdbcType="VARCHAR" property="trainclass" />
+    <result column="trainmethod" jdbcType="VARCHAR" property="trainmethod" />
+    <result column="traincontent" jdbcType="VARCHAR" property="traincontent" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    teruid, trainname, traintime, trainaddress, phone, logoimg, topflag, price, delflag, 
+    legtime, coursename, trainclass, trainmethod, traincontent, endtime, creator, createtime
+  </sql>
+  <select id="getTrainForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from tb_train
+    where teruid = #{teruid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getAllTrain" parameterType="pd" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from tb_train
+    where delflag = &apos;0&apos;
+    order by createtime DESC
+    <if test="limit != null and limit>0">
+      LIMIT #{offset},#{limit}
+    </if>
+  </select>
+  <delete id="deleteTrainByFid" parameterType="java.lang.String">
+
+    delete from tb_train
+    where teruid = #{teruid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addTrainxx" parameterType="pd">
+    insert into tb_train (teruid, trainname, traintime, 
+      trainaddress, phone, logoimg, 
+      topflag, price, delflag, 
+      legtime, coursename, trainclass, 
+      trainmethod, traincontent, endtime, 
+      creator, createtime)
+    values (#{teruid,jdbcType=VARCHAR}, #{trainname,jdbcType=VARCHAR}, #{traintime,jdbcType=TIMESTAMP}, 
+      #{trainaddress,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{logoimg,jdbcType=VARCHAR}, 
+      #{topflag,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{delflag,jdbcType=VARCHAR}, 
+      #{legtime,jdbcType=TIMESTAMP}, #{coursename,jdbcType=VARCHAR}, #{trainclass,jdbcType=VARCHAR}, 
+      #{trainmethod,jdbcType=VARCHAR}, #{traincontent,jdbcType=VARCHAR}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="addTrain" parameterType="pd">
+    insert into tb_train
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teruid != null">
+        teruid,
+      </if>
+      <if test="trainname != null">
+        trainname,
+      </if>
+      <if test="traintime != null">
+        traintime,
+      </if>
+      <if test="trainaddress != null">
+        trainaddress,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="logoimg != null">
+        logoimg,
+      </if>
+      <if test="topflag != null">
+        topflag,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="delflag != null">
+        delflag,
+      </if>
+      <if test="legtime != null">
+        legtime,
+      </if>
+      <if test="coursename != null">
+        coursename,
+      </if>
+      <if test="trainclass != null">
+        trainclass,
+      </if>
+      <if test="trainmethod != null">
+        trainmethod,
+      </if>
+      <if test="traincontent != null">
+        traincontent,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teruid != null">
+        #{teruid,jdbcType=VARCHAR},
+      </if>
+      <if test="trainname != null">
+        #{trainname,jdbcType=VARCHAR},
+      </if>
+      <if test="traintime != null">
+        #{traintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainaddress != null">
+        #{trainaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="logoimg != null">
+        #{logoimg,jdbcType=VARCHAR},
+      </if>
+      <if test="topflag != null">
+        #{topflag,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="delflag != null">
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="legtime != null">
+        #{legtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coursename != null">
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="trainclass != null">
+        #{trainclass,jdbcType=VARCHAR},
+      </if>
+      <if test="trainmethod != null">
+        #{trainmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="traincontent != null">
+        #{traincontent,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateTrain" parameterType="pd">
+
+    update tb_train
+    <set>
+      <if test="trainname != null">
+        trainname = #{trainname,jdbcType=VARCHAR},
+      </if>
+      <if test="traintime != null">
+        traintime = #{traintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainaddress != null">
+        trainaddress = #{trainaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="logoimg != null">
+        logoimg = #{logoimg,jdbcType=VARCHAR},
+      </if>
+      <if test="topflag != null">
+        topflag = #{topflag,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="delflag != null">
+        delflag = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="legtime != null">
+        legtime = #{legtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coursename != null">
+        coursename = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="trainclass != null">
+        trainclass = #{trainclass,jdbcType=VARCHAR},
+      </if>
+      <if test="trainmethod != null">
+        trainmethod = #{trainmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="traincontent != null">
+        traincontent = #{traincontent,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where teruid = #{teruid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Train">
+
+    update tb_train
+    set trainname = #{trainname,jdbcType=VARCHAR},
+      traintime = #{traintime,jdbcType=TIMESTAMP},
+      trainaddress = #{trainaddress,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      logoimg = #{logoimg,jdbcType=VARCHAR},
+      topflag = #{topflag,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      delflag = #{delflag,jdbcType=VARCHAR},
+      legtime = #{legtime,jdbcType=TIMESTAMP},
+      coursename = #{coursename,jdbcType=VARCHAR},
+      trainclass = #{trainclass,jdbcType=VARCHAR},
+      trainmethod = #{trainmethod,jdbcType=VARCHAR},
+      traincontent = #{traincontent,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where teruid = #{teruid,jdbcType=VARCHAR}
+  </update>
+</mapper>

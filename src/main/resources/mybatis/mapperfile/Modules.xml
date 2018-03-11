@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ModuleMapper">
+  <resultMap type="Modules" id="ModuleResultMap">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="pm_id" jdbcType="VARCHAR" property="pmId" />
+    <result column="md_name" jdbcType="VARCHAR" property="mdName" />
+    <result column="md_address" jdbcType="VARCHAR" property="mdAddress" />
+    <result column="md_img" jdbcType="VARCHAR" property="mdImg" />
+    <result column="md_enabled" jdbcType="INTEGER" property="mdEnabled" />
+    <result column="md_creator" jdbcType="VARCHAR" property="mdCreator" />
+    <result column="md_ctime" jdbcType="DATE" property="mdCtime" />
+    <result column="md_type" jdbcType="INTEGER" property="mdType" />
+    <result column="md_code" jdbcType="VARCHAR" property="mdCode" />
+    <result column="md_ordernum" jdbcType="SMALLINT" property="mdOrdernum" />
+    <result column="md_method" jdbcType="VARCHAR" property="mdMethod" />
+    <result column="md_ischild" jdbcType="VARCHAR" property="mdIschild" />
+  </resultMap>
+  <!-- 添加信息 -->
+  <insert id="addModule" parameterType="pd">
+    insert into tb_modules (uid,pm_id, md_name, md_address,
+    md_img, md_enabled, md_creator,
+    md_ctime, md_type, md_code,
+    md_ordernum, md_method, md_ischild
+    )
+    values (#{uid,jdbcType=VARCHAR},#{pmId,jdbcType=VARCHAR}, #{mdName,jdbcType=VARCHAR}, #{mdAddress,jdbcType=VARCHAR},
+    #{mdImg,jdbcType=VARCHAR}, #{mdEnabled,jdbcType=INTEGER}, #{mdCreator,jdbcType=VARCHAR},
+    #{mdCtime,jdbcType=DATE}, #{mdType,jdbcType=INTEGER}, #{mdCode,jdbcType=VARCHAR},
+    #{mdOrdernum,jdbcType=TINYINT}, #{mdMethod,jdbcType=VARCHAR}, #{mdIschild,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  
+  <update id="deleteModuleByFid"  parameterType="java.lang.String">
+    update tb_modules set md_enabled='1'
+    where uid in (#{uid,jdbcType=VARCHAR})
+  </update>
+  <!-- 更改 -->
+  <update id="updateModule" parameterType="pd">
+    update tb_modules
+    set pm_id = #{pmId,jdbcType=VARCHAR},
+    md_name = #{mdName,jdbcType=VARCHAR},
+    md_address = #{mdAddress,jdbcType=VARCHAR},
+    md_img = #{mdImg,jdbcType=VARCHAR},
+    md_enabled = #{mdEnabled,jdbcType=INTEGER},
+    md_creator = #{mdCreator,jdbcType=VARCHAR},
+    md_ctime = #{mdCtime,jdbcType=DATE},
+    md_type = #{mdType,jdbcType=INTEGER},
+    md_code = #{mdCode,jdbcType=VARCHAR},
+    md_ordernum = #{mdOrdernum,jdbcType=TINYINT},
+    md_method = #{mdMethod,jdbcType=VARCHAR},
+    md_ischild = #{mdIschild,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 更改用户密码 -->
+  <update id="updateUserPassword" parameterType="pd">
+    update tb_userinfo set password=#{password}
+    where username=#{username} and password=#{password}
+  </update>
+
+
+  <!--根据ID号 查询-->
+  <select id="selectModuleByFid" parameterType="java.lang.String"
+          resultMap="ModuleResultMap">
+    select * from tb_modules where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 查询所有，返回List -->
+  <select id="selectModuleList" resultMap="ModuleResultMap">
+    select * from tb_modules  where md_enabled!='1'
+  </select>
+  <!-- 分页列表 -->
+  <select id="getAllModule" resultMap="ModuleResultMap">
+    select *
+    from tb_modules where md_enabled!='1' LIMIT  #{offset},#{limit}
+  </select>
+  <select id="getAllModuleCount" resultMap="ModuleResultMap">
+    select *
+    from tb_modules where md_enabled!='1'
+  </select>
+  <!-- 分页列表并排序 -->
+  <select id="getAllModuleOrder" resultMap="ModuleResultMap">
+    select *
+    from tb_modules where md_enabled!='1' ORDER BY pm_id,md_ordernum LIMIT  #{offset},#{limit}
+  </select>
+
+
+  <select id="getModuleListByRoleId" resultMap="ModuleResultMap" parameterType="java.lang.String">
+    select
+    A.*
+    FROM tb_modules A ,tb_rolesmodules B
+    WHERE A.uid=B.md_id AND b.role_id = #{role_id,jdbcType=VARCHAR} order by A.md_ordernum
+  </select>
+  <!-- 是否包含子菜单 -->
+  <select id="getParentModule" resultMap="ModuleResultMap">
+    select *
+    from tb_modules  where md_ischild='false' and pm_id='0'
+  </select>
+
+</mapper>

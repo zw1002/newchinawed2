@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="RolesMapper">
+  <resultMap type="Roles" id="RolesResultMap">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_description" jdbcType="VARCHAR" property="roleDescription" />
+    <result column="role_creator" jdbcType="VARCHAR" property="roleCreator" />
+    <result column="role_ctime" jdbcType="DATE" property="roleCtime" />
+    <result column="role_enabled" jdbcType="INTEGER" property="roleEnabled" />
+  </resultMap>
+  <!-- 添加信息 -->
+  <insert id="addRoles" parameterType="pd">
+    insert into tb_roles (uid,role_name, role_description, role_creator,role_ctime, role_enabled)
+    values (#{uid,jdbcType=VARCHAR},#{roleName,jdbcType=VARCHAR}, #{roleDescription,jdbcType=VARCHAR}, #{roleCreator,jdbcType=VARCHAR},
+    #{roleCtime,jdbcType=DATE}, #{roleEnabled,jdbcType=INTEGER})
+  </insert>
+  <!--执行删除操作，更改状态，0是1否-->
+  <update id="deleteRolesByFid"  parameterType="java.lang.String">
+    update tb_roles set role_enabled='1'	where uid in (#{uid,jdbcType=VARCHAR})
+  </update>
+  <!-- 更改 -->
+  <update id="updateRoles" parameterType="pd">
+    update tb_roles
+    set role_name = #{roleName,jdbcType=VARCHAR},
+    role_description = #{roleDescription,jdbcType=VARCHAR},
+    role_creator = #{roleCreator,jdbcType=VARCHAR},
+    role_ctime = #{roleCtime,jdbcType=DATE},
+    role_enabled = #{roleEnabled,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--根据ID号 查询-->
+  <select id="selectRolesByFid" parameterType="java.lang.String" resultMap="RolesResultMap">
+    select * from tb_roles where uid =#{uid,jdbcType=VARCHAR}
+  </select>
+  <!-- 分页列表 -->
+  <select id="getAllRoles" resultMap="RolesResultMap">
+    select *	from tb_roles where role_enabled!='1' LIMIT  #{offset},#{limit}
+  </select>
+  <!--查询所有数据-->
+  <select id="selectRoleList" resultMap="RolesResultMap">
+    select *	from tb_roles where role_enabled!='1'
+  </select>
+
+  <select id="selectRoleByUserId" resultMap="RolesResultMap" parameterType="java.lang.String">
+    select
+    A.*
+    from tb_roles A,tb_rolesuser B
+    WHERE A.uid=B.role_id AND B.user_id=#{user_id,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DistributionMapper">
+  <resultMap id="BaseResultMap" type="Distribution">
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="parentid" jdbcType="VARCHAR" property="parentid" />
+    <result column="userseltid" jdbcType="VARCHAR" property="userseltid" />
+    <result column="distprod" jdbcType="VARCHAR" property="distprod" />
+  </resultMap>
+  <insert id="addDistribution" parameterType="pd">
+    insert into tb_distribution (uid, parentid, userseltid,
+      distprod)
+    values (#{uid,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{userseltid,jdbcType=VARCHAR}, 
+      #{distprod,jdbcType=VARCHAR})
+  </insert>
+  <!--通过parentid查询-->
+  <select id="getDistributionforParentId" resultMap="BaseResultMap">
+    select *
+    from tb_distribution
+    where userseltid = #{userseltid,jdbcType=VARCHAR}
+  </select>
+</mapper>

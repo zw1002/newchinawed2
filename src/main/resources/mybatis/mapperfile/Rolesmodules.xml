@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="RolesModulesMapper">
+  <resultMap type="RolesModules" id="RolesModulesResultMap">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="md_id" jdbcType="VARCHAR" property="mdId" />
+    <result column="rm_creator" jdbcType="VARCHAR" property="rmCreator" />
+    <result column="rm_ctime" jdbcType="DATE" property="rmCtime" />
+  </resultMap>
+  <!-- 添加信息 -->
+  <insert id="addRolesModule" parameterType="pd">
+    insert into tb_rolesmodules (uid,role_id, md_id, rm_creator,  rm_ctime)
+    values (#{uid,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{mdId,jdbcType=VARCHAR}, #{rmCreator,jdbcType=VARCHAR},
+    #{rmCtime,jdbcType=DATE})
+  </insert>
+
+  <!--根据ID号 查询代理用户，返回UserInfoModel-->
+  <select id="selectUserInfoByID" parameterType="java.lang.Integer"
+          resultMap="RolesModulesResultMap">
+    select * from tb_userinfo where uid =#{uid}
+  </select>
+
+  <!--通过角色ID获取此角色所有的菜单-->
+  <select id="getModuleByRoleId" resultMap="RolesModulesResultMap" parameterType="java.lang.String">
+    select * from tb_rolesmodules	where role_id=#{roleId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="delRolesModulesByMdId" parameterType="pd">
+    delete from tb_rolesmodules	where  role_id = #{role_id,jdbcType=VARCHAR} and md_id = #{mdId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

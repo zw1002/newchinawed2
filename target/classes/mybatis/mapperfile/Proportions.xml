@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProportionsMapper">
+  <resultMap id="BaseResultMap" type="Proportions">
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="dislevel" jdbcType="INTEGER" property="dislevel" />
+    <result column="distprod" jdbcType="VARCHAR" property="distprod" />
+  </resultMap>
+  <insert id="addProportions" parameterType="pd">
+    insert into tb_proportions (uid, dislevel, distprod
+      )
+    values (#{uid,jdbcType=VARCHAR}, #{dislevel,jdbcType=INTEGER}, #{distprod,jdbcType=VARCHAR}
+      )
+  </insert>
+  <!-- 查询所有，返回List -->
+  <select id="selectProportionsList" resultMap="BaseResultMap">
+    select * from tb_proportions
+  </select>
+  <!-- 分页查询所有数据 -->
+  <select id="getAllProportions" resultMap="BaseResultMap">
+    select * from tb_proportions LIMIT #{offset},#{limit}
+  </select>
+  <!--通过用户ID查询-->
+  <select id="getProportionsForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from tb_proportions
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <!--修改-->
+  <update id="updateProportions" parameterType="pd">
+    update tb_proportions set
+    dislevel = #{dislevel,jdbcType=INTEGER},
+    distprod = #{distprod,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--删除-->
+  <delete id="deleteProportionsByFid" parameterType="java.lang.String">
+    delete from tb_proportions where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <!--通过级别查询-->
+  <select id="getProportionsByLevel" resultMap="BaseResultMap">
+    select *
+    from tb_proportions
+    where dislevel = #{dislevel}
+  </select>
+</mapper>

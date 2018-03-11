@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CashrecordMapper">
+  <resultMap id="BaseResultMap" type="com.hnqj.model.Cashrecord">
+
+    <id column="cashuid" jdbcType="VARCHAR" property="cashuid" />
+    <result column="applypeople" jdbcType="VARCHAR" property="applypeople" />
+    <result column="applytime" jdbcType="TIMESTAMP" property="applytime" />
+    <result column="applynum" jdbcType="DECIMAL" property="applynum" />
+    <result column="checkpeople" jdbcType="VARCHAR" property="checkpeople" />
+    <result column="checktime" jdbcType="TIMESTAMP" property="checktime" />
+    <result column="cashstate" jdbcType="VARCHAR" property="cashstate" />
+    <result column="cashtype" jdbcType="VARCHAR" property="cashtype" />
+    <result column="cashaccount" jdbcType="VARCHAR" property="cashaccount" />
+    <result column="checkpeoplename" jdbcType="VARCHAR" property="checkpeoplename" />
+    <result column="applyuserid" jdbcType="VARCHAR" property="applyuserid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    cashuid, applypeople, applytime, applynum, checkpeople, checktime, cashstate, cashtype, 
+    cashaccount,(select fristname from tb_userinfo where uid= checkpeople) as checkpeoplename,applyuserid
+  </sql>
+  <select id="getCashrecordForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select 
+    <include refid="Base_Column_List" />
+    from tb_cashrecord
+    where cashuid = #{cashuid,jdbcType=VARCHAR}
+  </select>
+  <select id="getAllCashrecord" parameterType="pd" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from tb_cashrecord
+    where cashstate = #{cashstate,jdbcType=VARCHAR}
+    ORDER BY applytime DESC
+    <if test="limit != null and limit>0">
+      LIMIT #{offset},#{limit}
+    </if>
+  </select>
+  <delete id="deleteCashrecordByFid" parameterType="java.lang.String">
+
+    delete from tb_cashrecord
+    where cashuid = #{cashuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hnqj.model.Cashrecord">
+
+    insert into tb_cashrecord (cashuid, applypeople, applytime, 
+      applynum, checkpeople, checktime, 
+      cashstate, cashtype, cashaccount
+      )
+    values (#{cashuid,jdbcType=VARCHAR}, #{applypeople,jdbcType=VARCHAR}, #{applytime,jdbcType=TIMESTAMP}, 
+      #{applynum,jdbcType=DECIMAL}, #{checkpeople,jdbcType=VARCHAR}, #{checktime,jdbcType=TIMESTAMP}, 
+      #{cashstate,jdbcType=VARCHAR}, #{cashtype,jdbcType=VARCHAR}, #{cashaccount,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="addCashrecord" parameterType="pd">
+
+    insert into tb_cashrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cashuid != null">
+        cashuid,
+      </if>
+      <if test="applypeople != null">
+        applypeople,
+      </if>
+      <if test="applytime != null">
+        applytime,
+      </if>
+      <if test="applynum != null">
+        applynum,
+      </if>
+      <if test="checkpeople != null">
+        checkpeople,
+      </if>
+      <if test="checktime != null">
+        checktime,
+      </if>
+      <if test="cashstate != null">
+        cashstate,
+      </if>
+      <if test="cashtype != null">
+        cashtype,
+      </if>
+      <if test="cashaccount != null">
+        cashaccount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cashuid != null">
+        #{cashuid,jdbcType=VARCHAR},
+      </if>
+      <if test="applypeople != null">
+        #{applypeople,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null">
+        #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applynum != null">
+        #{applynum,jdbcType=DECIMAL},
+      </if>
+      <if test="checkpeople != null">
+        #{checkpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashstate != null">
+        #{cashstate,jdbcType=VARCHAR},
+      </if>
+      <if test="cashtype != null">
+        #{cashtype,jdbcType=VARCHAR},
+      </if>
+      <if test="cashaccount != null">
+        #{cashaccount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateCashrecord" parameterType="pd">
+
+    update tb_cashrecord
+    <set>
+      <if test="applypeople != null">
+        applypeople = #{applypeople,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null">
+        applytime = #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applynum != null">
+        applynum = #{applynum,jdbcType=DECIMAL},
+      </if>
+      <if test="checkpeople != null">
+        checkpeople = #{checkpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        checktime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashstate != null">
+        cashstate = #{cashstate,jdbcType=VARCHAR},
+      </if>
+      <if test="cashtype != null">
+        cashtype = #{cashtype,jdbcType=VARCHAR},
+      </if>
+      <if test="cashaccount != null">
+        cashaccount = #{cashaccount,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cashuid = #{cashuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnqj.model.Cashrecord">
+
+    update tb_cashrecord
+    set applypeople = #{applypeople,jdbcType=VARCHAR},
+      applytime = #{applytime,jdbcType=TIMESTAMP},
+      applynum = #{applynum,jdbcType=DECIMAL},
+      checkpeople = #{checkpeople,jdbcType=VARCHAR},
+      checktime = #{checktime,jdbcType=TIMESTAMP},
+      cashstate = #{cashstate,jdbcType=VARCHAR},
+      cashtype = #{cashtype,jdbcType=VARCHAR},
+      cashaccount = #{cashaccount,jdbcType=VARCHAR}
+    where cashuid = #{cashuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

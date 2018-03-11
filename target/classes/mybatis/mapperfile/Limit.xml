@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LimitMapper">
+  <resultMap id="BaseResultMap" type="Limit">
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="drawallimit" jdbcType="INTEGER" property="drawallimit" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="mininum" jdbcType="INTEGER" property="mininum" />
+    <result column="maxinum" jdbcType="INTEGER" property="maxinum" />
+  </resultMap>
+  <insert id="addLimit" parameterType="pd">
+    insert into tb_limit (uid, drawallimit, createtime,mininum,maxinum
+      )
+    values (#{uid,jdbcType=VARCHAR}, #{drawallimit,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}
+    ,#{mininum,jdbcType=INTEGER},#{maxinum,jdbcType=INTEGER}
+      )
+  </insert>
+  <!-- 查询所有，返回List -->
+  <select id="selectLimitList" resultMap="BaseResultMap">
+    select * from tb_limit
+  </select>
+  <!-- 分页查询所有数据 -->
+  <select id="getAllLimit" resultMap="BaseResultMap">
+    select * from tb_limit LIMIT #{offset},#{limit}
+  </select>
+  <!--通过用户ID查询-->
+  <select id="getLimitByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from tb_limit
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <!--修改-->
+  <update id="updateLimit" parameterType="pd">
+    update tb_limit set
+    drawallimit = #{drawallimit,jdbcType=INTEGER},
+    createtime = #{createtime,jdbcType=TIMESTAMP},
+    mininum = #{mininum,jdbcType=INTEGER},
+    maxinum = #{maxinum,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--删除-->
+  <delete id="deleteLimitByFid" parameterType="java.lang.String">
+    delete from tb_limit where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+</mapper>

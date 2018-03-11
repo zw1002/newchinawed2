@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MerchMapper">
+  <resultMap id="BaseResultMap" type="Merch">
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="merchname" jdbcType="VARCHAR" property="merchname" />
+    <result column="userinfouid" jdbcType="VARCHAR" property="userinfouid" />
+    <result column="bondvalue" jdbcType="INTEGER" property="bondvalue" />
+    <result column="builddatetime" jdbcType="TIMESTAMP" property="builddatetime" />
+    <result column="merchscroe" jdbcType="INTEGER" property="merchscroe" />
+    <result column="statu" jdbcType="SMALLINT" property="statu" />
+    <result column="cycle" jdbcType="VARCHAR" property="cycle" />
+  </resultMap>
+  <!--开店申请-->
+  <insert id="addMerch" parameterType="pd">
+    insert into tb_merch (uid, merchname, userinfouid,
+      bondvalue, builddatetime, merchscroe,statu,cycle
+      )
+    values (#{uid,jdbcType=VARCHAR}, #{merchname,jdbcType=VARCHAR}, #{userinfouid,jdbcType=VARCHAR}, 
+      #{bondvalue,jdbcType=INTEGER}, #{builddatetime,jdbcType=TIMESTAMP}, #{merchscroe,jdbcType=INTEGER}
+      ,#{statu,jdbcType=SMALLINT},#{cycle,jdbcType=VARCHAR}
+      )
+  </insert>
+  <!--审核或者冻结商户-->
+  <update id="updateMerchStatu" parameterType="pd">
+    update tb_merch set statu=#{statu}
+    where uid=#{uid}
+  </update>
+  <!--通过ID查询记录-->
+  <select id="getMerchForId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from tb_merch where uid=#{uid,jdbcType=VARCHAR}
+  </select>
+  <!--修改-->
+  <update id="updateMerch" parameterType="pd">
+    update tb_merch set statu=#{statu},merchname=#{merchname}
+    where uid=#{uid}
+  </update>
+  <!--修改积分-->
+  <update id="updateMerchScore" parameterType="pd">
+    update tb_merch
+    set merchscroe=#{merchscroe}
+    where uid=#{uid}
+  </update>
+  <!--修改结算周期-->
+  <update id="updateCycle" parameterType="pd">
+    update tb_merch
+    set cycle=#{cycle}
+    where uid=#{uid}
+  </update>
+  <!--分页查询-->
+  <select id="getAllMerch" resultMap="BaseResultMap" parameterType="pd">
+    select * from tb_merch where statu != '0' LIMIT #{offset},#{limit}
+  </select>
+  <!--查询所有-->
+  <select id="selectMerchList" resultMap="BaseResultMap">
+  select * from tb_merch where statu != '0'
+</select>
+  <!--分页查询申请列表-->
+  <select id="getApplyMerch" resultMap="BaseResultMap">
+    select * from tb_merch where statu = '0' LIMIT #{offset},#{limit}
+  </select>
+  <!--查询申请列表-->
+  <select id="selectApplyMerchList" resultMap="BaseResultMap">
+    select * from tb_merch where statu = '0'
+  </select>
+  <!--根据条件分页搜索商户-->
+  <select id="getAllMerchByCondition" resultMap="BaseResultMap">
+    select * from tb_merch
+    where statu != '0'
+    <if test="statu!=null and statu!=''">
+      and statu = #{statu}
+    </if>
+    <if test="grade!=null and grade!=''">
+      and merchscroe between #{mininum} and #{maxinum}
+    </if>
+    <if test="merchname!=null and merchname!=''">
+      and merchname = #{merchname}
+    </if>
+    LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectMerchListByCondition" resultMap="BaseResultMap">
+    select * from tb_merch
+    where statu != '0'
+    <if test="statu!=null and statu!=''">
+      and statu = #{statu}
+    </if>
+    <if test="grade!=null and grade!=''">
+      and merchscroe between #{mininum} and #{maxinum}
+    </if>
+    <if test="merchname!=null and merchname!=''">
+      and merchname = #{merchname}
+    </if>
+  </select>
+</mapper>

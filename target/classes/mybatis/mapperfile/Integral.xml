@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IntegralMapper">
+  <resultMap id="BaseResultMap" type="Integral">
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="mininum" jdbcType="INTEGER" property="mininum" />
+    <result column="maxinum" jdbcType="INTEGER" property="maxinum" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="divided" jdbcType="DECIMAL" property="divided" />
+    <result column="basedeposit" jdbcType="DECIMAL" property="basedeposit" />
+  </resultMap>
+  <insert id="addIntegral" parameterType="pd">
+    insert into tb_integral (uid, mininum, maxinum,
+      grade,divided,basedeposit)
+    values (#{uid,jdbcType=VARCHAR}, #{mininum,jdbcType=INTEGER}, #{maxinum,jdbcType=INTEGER}, 
+      #{grade,jdbcType=INTEGER},#{divided,jdbcType=DECIMAL},#{basedeposit,jdbcType=DECIMAL})
+  </insert>
+  <!-- 查询所有，返回List -->
+  <select id="selectIntegralList" resultMap="BaseResultMap">
+    select * from tb_integral
+  </select>
+  <!-- 分页查询所有数据 -->
+  <select id="getAllIntegral" resultMap="BaseResultMap">
+    select * from tb_integral LIMIT #{offset},#{limit}
+  </select>
+  <!--通过用户ID查询-->
+  <select id="getIntegralByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from tb_integral
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <!--修改-->
+  <update id="updateIntegral" parameterType="pd">
+    update tb_integral set
+    mininum = #{mininum,jdbcType=INTEGER},
+    maxinum = #{maxinum,jdbcType=INTEGER},
+    grade = #{grade,jdbcType=INTEGER},
+    divided = #{divided,jdbcType=DECIMAL},
+    basedeposit = #{basedeposit,jdbcType=DECIMAL}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--删除-->
+  <delete id="deleteIntegralByFid" parameterType="java.lang.String">
+    delete from tb_integral where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <!--通过积分查询Integral-->
+  <select id="selectIntegralByScroe" resultMap="BaseResultMap">
+    select * from tb_integral where #{scroe} between mininum and maxinum
+  </select>
+  <!--通过等级查询Integral-->
+  <select id="selectIntegralByGrade" resultMap="BaseResultMap">
+    select * from tb_integral where grade = #{grade,jdbcType=INTEGER}
+  </select>
+</mapper>

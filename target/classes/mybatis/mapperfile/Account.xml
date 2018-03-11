@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AccountMapper">
+  <resultMap type="Account" id="AccountResultMap">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="state" jdbcType="SMALLINT" property="state" />
+    <result column="usemobile" jdbcType="SMALLINT" property="usemobile" />
+    <result column="usertype" jdbcType="SMALLINT" property="usertype" />
+    <result property="extend_1" jdbcType="VARCHAR" column="extend_1" />
+    <result property="extend_2" jdbcType="VARCHAR" column="extend_2" />
+    <result property="extend_3" jdbcType="VARCHAR" column="extend_3" />
+    <result property="extend_4" jdbcType="VARCHAR" column="extend_4" />
+    <result property="extend_5" jdbcType="VARCHAR" column="extend_5" />
+    <result property="extend_6" jdbcType="VARCHAR" column="extend_6" />
+    <result property="extend_7" jdbcType="VARCHAR" column="extend_7" />
+    <result property="extend_8" jdbcType="VARCHAR" column="extend_8" />
+  </resultMap>
+  <!-- 添加信息 -->
+  <insert id="addAccount" parameterType="pd">
+--     insert into tb_account (uid, account, passwd,  userid, state, usemobile,usertype )
+--     values (#{uid,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR},
+--     #{userid,jdbcType=VARCHAR}, #{state,jdbcType=SMALLINT}, #{usemobile,jdbcType=SMALLINT}, #{usertype,jdbcType=SMALLINT}
+--     )
+    insert into tb_account (uid, account, passwd,
+    userid, state, usertype,
+    usemobile
+    <if test="extend_1 != null and extend_1 != ''">
+      ,extend_1</if>
+    <if test="extend_2 != null and extend_2 != ''">
+      ,  extend_2</if>
+    <if test="extend_3 != null and extend_3 != ''">
+      ,  extend_3</if>
+    <if test="extend_4 != null and extend_4 != ''">
+      ,  extend_4</if>
+    <if test="extend_5 != null and extend_5 != ''">
+      ,  extend_5</if>
+    <if test="extend_6 != null and extend_6 != ''">
+      ,  extend_6</if>
+    <if test="extend_7 != null and extend_7 != ''">
+      ,  extend_7</if>
+    <if test="extend_8 != null and extend_8 != ''">
+      ,  extend_8</if>
+    )
+    values (#{uid,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR},
+    #{userid,jdbcType=VARCHAR}, #{state,jdbcType=SMALLINT}, #{usertype,jdbcType=SMALLINT},
+    #{usemobile,jdbcType=SMALLINT}
+    <if test="extend_1 != null and extend_1 != ''">
+      , #{extend_1,jdbcType=VARCHAR}</if>
+    <if test="extend_2 != null and extend_2 != ''">
+      , #{extend_2,jdbcType=VARCHAR}</if>
+    <if test="extend_3 != null and extend_3 != ''">
+      ,#{extend_3,jdbcType=VARCHAR}</if>
+    <if test="extend_4 != null and extend_4 != ''">
+      , #{extend_4,jdbcType=VARCHAR}</if>
+    <if test="extend_5 != null and extend_5 != ''">
+      , #{extend_5,jdbcType=VARCHAR}</if>
+    <if test="extend_6 != null and extend_6 != ''">
+      , #{extend_6,jdbcType=VARCHAR}</if>
+    <if test="extend_7 != null and extend_7 != ''">
+      ,#{extend_7,jdbcType=VARCHAR}</if>
+    <if test="extend_8 != null and extend_8 != ''">
+      , #{extend_8,jdbcType=VARCHAR}</if>
+    )
+  </insert>
+
+  <!--设置帐号的可用状态-->
+  <update id="deleteAccountByFid" parameterType="java.lang.String">
+    update tb_account
+    set state = '0'
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!-- 更改-->
+  <update id="updateAccount" parameterType="pd">
+    update tb_account
+    set account = #{account,jdbcType=VARCHAR},
+    passwd = #{passwd,jdbcType=VARCHAR},
+    userid = #{userid,jdbcType=VARCHAR},
+    state = #{state,jdbcType=SMALLINT},
+    usemobile = #{usemobile,jdbcType=SMALLINT},
+    usertype = #{usertype,jdbcType=SMALLINT}
+    <if test="extend_1 != null and extend_1 != ''">
+      , extend_1= #{extend_1,jdbcType=VARCHAR}</if>
+    <if test="extend_2 != null and extend_2 != ''">
+      , extend_2= #{extend_2,jdbcType=VARCHAR}</if>
+    <if test="extend_3 != null and extend_3 != ''">
+      ,extend_3= #{extend_3,jdbcType=VARCHAR}</if>
+    <if test="extend_4 != null and extend_4 != ''">
+      , extend_4= #{extend_4,jdbcType=VARCHAR}</if>
+    <if test="extend_5 != null and extend_5 != ''">
+      , extend_5= #{extend_5,jdbcType=VARCHAR}</if>
+    <if test="extend_6 != null and extend_6 != ''">
+      , extend_6= #{extend_6,jdbcType=VARCHAR}</if>
+    <if test="extend_7 != null and extend_7 != ''">
+      ,extend_7= #{extend_7,jdbcType=VARCHAR}</if>
+    <if test="extend_8 != null and extend_8 != ''">
+      , extend_8=#{extend_8,jdbcType=VARCHAR}</if>
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+
+  <!--初始化密码-->
+  <update id="resetPasswd" parameterType="pd">
+    update tb_account
+    set passwd = #{passwd}
+    where uid = #{uid}
+  </update>
+
+
+  <!--根据ID号 查询代理用户，返回UserInfoModel-->
+  <select id="selectUserInfoByID" parameterType="java.lang.Integer"
+          resultMap="AccountResultMap">
+    select * from tb_userinfo where uid =#{uid}
+  </select>
+
+  <!-- 查询所有代理用户，返回List -->
+  <select id="selectUserInfoList" resultMap="AccountResultMap">
+    select * from tb_userinfo
+  </select>
+
+  <!-- 分页列表 -->
+  <select id="getAllAccounts" resultMap="AccountResultMap">
+    select  * from tb_account where state='1'  LIMIT #{offset},#{limit}
+  </select>
+  <!--获取所有数据-->
+  <select id="selectAccountList" resultMap="AccountResultMap">
+    select  * from tb_account where state='1'
+  </select>
+  <!--查看个人信息时获取账号-->
+  <select id="getAccountforUserId" resultMap="AccountResultMap">
+    select *
+    from tb_account
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <!--校验账号-->
+  <select id="getAccountforAccount" resultMap="AccountResultMap">
+    select *
+    from tb_account
+    where account = #{uid,jdbcType=VARCHAR} and state='1'
+  </select>
+    <!--通过用户编码获取账号-->
+    <select id="getAccountByRecord" resultMap="AccountResultMap">
+        select *
+        from tb_account
+        where extend_1 = #{extend_1,jdbcType=VARCHAR}
+    </select>
+</mapper>

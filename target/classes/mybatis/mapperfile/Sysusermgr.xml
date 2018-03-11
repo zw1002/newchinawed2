@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysusermgrMapper">
+  <resultMap id="BaseResultMap" type="Sysusermgr">
+    <id column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="fristname" jdbcType="VARCHAR" property="fristname" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="statu" jdbcType="SMALLINT" property="statu" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="extrainfo" jdbcType="LONGVARCHAR" property="extrainfo" />
+  </resultMap>
+  <!-- 查询所有，返回List -->
+  <select id="selectSysUserList" resultMap="BaseResultMap">
+    select * from tb_sysusermgr where statu = '1'
+  </select>
+  <!-- 分页查询所有数据 -->
+  <select id="getAllSysUserInfo" resultMap="BaseResultMap">
+    select * from tb_sysusermgr where statu = '1' LIMIT #{offset},#{limit}
+  </select>
+  <!--通过用户ID查询-->
+  <select id="getSysUserByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from tb_sysusermgr
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+<!--新增-->
+  <insert id="addSysUser" parameterType="pd">
+    insert into tb_sysusermgr (uid, fristname,
+      statu, idcard, telephone, email, sex, extrainfo
+      )
+    values (#{uid,jdbcType=VARCHAR}, #{fristname,jdbcType=VARCHAR},
+      #{statu,jdbcType=SMALLINT}, #{idcard,jdbcType=VARCHAR},
+      #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR},#{extrainfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <!--修改-->
+  <update id="updateSysUser" parameterType="pd">
+    update tb_sysusermgr
+    set fristname = #{fristname,jdbcType=VARCHAR},
+      statu = #{statu,jdbcType=SMALLINT},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      extrainfo = #{extrainfo,jdbcType=LONGVARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--删除-->
+  <update id="deleteSysusermgrByFid" parameterType="java.lang.String">
+    update tb_sysusermgr
+    set statu = '0'
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <!--登录时通过帐号密码查找用户-->
+  <select id="selectUser" parameterType="pd" resultMap="BaseResultMap">
+    select * from tb_sysusermgr where uid in (
+    select userid from tb_account  where account = #{account,jdbcType=VARCHAR} and passwd = #{passwd,jdbcType=VARCHAR}
+    )
+  </select>
+</mapper>

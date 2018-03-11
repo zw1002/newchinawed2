@@ -1,0 +1,13 @@
+.proimg{padding:10px;overflow:auto; white-space:nowrap;height:20px;}
+.before{float:left;width:80px;height:40px;line-height:40px;cursor:pointer;position:relative;font-size:13px; color:#666666; white-space:nowrap; text-align:center;overflow:hidden;display: block;}
+.hover{float:left;width:80px;height:40px;line-height:40px;cursor:pointer;position:relative;font-size:13px;color:#2C2B23; white-space:nowrap; text-align:center;overflow:hidden;display: block;}
+.start{float:left;width:80px;height:40px;cursor:pointer;position:relative; background:url(/img/workflow/flowimages/start.png) no-repeat;}
+.last{float:left;width:80px;height:40px;cursor:pointer;position:relative; background:url(/img/workflow/flowimages/last.png) no-repeat;}
+#pro_pao{ width:316px;}
+.pro_top{ background:url(/img/workflow/flowimages/pro_top.png) center bottom no-repeat;}
+.pro_paonon{ padding:5px 15px 5px 15px; line-height:22px; font-size:12px;}
+.pao_bot{ background:url(/img/workflow/flowimages/pro_bottom.png) no-repeat; height:23px;}
+
+.startNode{background: url("/img/workflow/flowimages/bak_center.png") repeat-x; left: 0px; top: 0px; position: absolute;}
+.workNode{background:url("/img/workflow/flowimages/bak_center.png") repeat-x; left: 120px; top: 0px; position: absolute;}
+.endNode{background: url("/img/workflow/flowimages/bak_center.png") repeat-x; left: 240px; top: 0px; position: absolute;}
